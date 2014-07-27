@@ -5,9 +5,19 @@ The R script **run_analysis.R** processes [Human Activity Recognition Using Smar
 
 ## Steps
 
-The scripts processes the raw data as follows:
+The script processes the raw data as follows:
 
-* 
+* Read files into data frames
+* Combine the `X_test` and `X_train` data frames
+* Extract only the measurements on the mean and standard deviation for each measurement
+* Combine the `subject_train` and `subject_test`
+* Combine the `y_train` and `y_test`
+* Replace activity id codes with descriptive activity names
+* Put together the subject, activity and data
+* Aggregate data
+* Clean the variables names
+* Write the output file **tidydata.txt**
+
 
 
 
