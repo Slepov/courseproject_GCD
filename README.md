@@ -13,9 +13,9 @@ The script processes the raw data as follows:
 * Combine the `subject_train` and `subject_test`
 * Combine the `y_train` and `y_test`
 * Replace activity id codes with descriptive activity names
-* Put together the subject, activity and data
+* Put together the `subject`, `activity` and `data`
 * Aggregate data
-* Clean the variables names
+* Clean the variables names (delete "()", replace "-" with "_", replace "BodyBody" with "Body")
 * Write the output file **tidydata.txt**
 
 

@@ -4,13 +4,22 @@ The tidy data set is built from [Human Activity Recognition Using Smartphones Da
 
 ## Data Set Information
 
+The tidy data set contains the mean values aggregated over 30 subjects and 6 activities 
+
 ## Transformations
 
-## Variables
+* Reunion the train and test data
+* Extract only the measurements on the mean and standard deviation for each measurement
+* Aggregate data
+* Clean the variables names
 
-"subject"
+## Data Columns
 
-"activity"
+* subject - the unique ID of the subject (1..30)
+
+* activity - activity labels ("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING", "LAYING")
+
+* The remaining variables are described in the raw data zip file.
 
 "tBodyAcc_mean_X"
 
