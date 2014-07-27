@@ -23,25 +23,27 @@ activity_labels<-read.table("UCI HAR Dataset/activity_labels.txt")
 
 print("Cleaning and aggregating data...")
 
-## Combine the test and train dataframes
+## Combine the train and test data frames
 data<-rbind(X_train,X_test)
 names(data)<-features[,2]
 
 ## Extract only the measurements on the mean and standard deviation for each measurement
 feat <- grep("*-mean|-std*", features[,2])
 feat2 <- grep("*meanFreq", features[,2])
-
 data<-data[,feat[is.na(match(feat,feat2))]]
 
 
-##
+## Combine the subject_train and subject_test
 subject<-c(subject_train[,1],subject_test[,1]) 
 
+## Combine the y_train and y_test
 y<-rbind(y_train,y_test)
 
-act<-join(y,activity_labels)
+## Replace activity id codes with descriptive activity names
+act<-join(y,activity_labels) 
 activity<-act[,2]
 
+## Put together the subject, activity and data
 data<-cbind(data,subject,activity)
 
 ## Aggregate data
