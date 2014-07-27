@@ -1,52 +1,62 @@
-##  
-## You should create one R script called run_analysis.R that does the following. 
-## 1 Merges the training and the test sets to create one data set.
-## 2 Extracts only the measurements onfe the mean and standard deviation for each measurement. 
-## 3 Uses descriptive activity names to name the activities in the data set
-## 4 Appropriately labels the data set with descriptive variable names. 
-## 5 Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+## run_analysis.R 
+##
+## This script called run_analysis.R does the following:
+## * Merges the training and the test sets.
+## * Extracts only the measurements on the mean and standard deviation for each measurement. 
+## * Uses descriptive activity names to name the activities in the data set.
+## * Appropriately labels the data set with descriptive variable names. 
+## * Creates a tidy data set with the average of each variable for each activity and each subject. 
 
-## 0
+library(plyr)
+
+## Read files into data frames
+print("Reading files...")
 
 features<-read.table("UCI HAR Dataset/features.txt")
-
 X_train<-read.table("UCI HAR Dataset/train/X_train.txt")
 y_train<-read.table("UCI HAR Dataset/train/y_train.txt")
 subject_train<-read.table("UCI HAR Dataset/train/subject_train.txt")
-
 X_test<-read.table("UCI HAR Dataset/test/X_test.txt")
 y_test<-read.table("UCI HAR Dataset/test/y_test.txt")
 subject_test<-read.table("UCI HAR Dataset/test/subject_test.txt")
-
 activity_labels<-read.table("UCI HAR Dataset/activity_labels.txt")
 
-## 1 
+print("Cleaning and aggregating data...")
+
+## Combine the test and train dataframes
 data<-rbind(X_train,X_test)
 names(data)<-features[,2]
 
-## 2
+## Extract only the measurements on the mean and standard deviation for each measurement
 feat <- grep("*-mean|-std*", features[,2])
 feat2 <- grep("*meanFreq", features[,2])
 
 data<-data[,feat[is.na(match(feat,feat2))]]
 
 
-#
-subject<-c(subject_train[,1],subject_test[,1])
+##
+subject<-c(subject_train[,1],subject_test[,1]) 
 
 y<-rbind(y_train,y_test)
-library(plyr)
+
 act<-join(y,activity_labels)
 activity<-act[,2]
 
 data<-cbind(data,subject,activity)
 
+## Aggregate data
 n<-length(feat[is.na(match(feat,feat2))])
 tidydataset <-aggregate(data[1:n], by=list(data$subject,data$activity),FUN=mean, na.rm=TRUE)
 names(tidydataset)[1:2]<-c("subject", "activity")
 
-write.table(tidydataset,"data.txt")
+## Clean variables names
+names(tidydataset)<-gsub("\\()","",names(tidydataset))
+names(tidydataset)<-gsub("-","_",names(tidydataset))
+names(tidydataset)<-gsub("BodyBody","Body",names(tidydataset))
 
-## names(data)<-features[feat[is.na(match(feat,feat2))],2]
 
-## library(plyr)
+## Write the output file
+print("Writing the output file...")
+write.table(tidydataset,"tidydata.txt")
+
+print("Done")
