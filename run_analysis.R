@@ -49,7 +49,7 @@ n<-length(feat[is.na(match(feat,feat2))])
 tidydataset <-aggregate(data[1:n], by=list(data$subject,data$activity),FUN=mean, na.rm=TRUE)
 names(tidydataset)[1:2]<-c("subject", "activity")
 
-## Clean variables names
+## Clean the variables names
 names(tidydataset)<-gsub("\\()","",names(tidydataset))
 names(tidydataset)<-gsub("-","_",names(tidydataset))
 names(tidydataset)<-gsub("BodyBody","Body",names(tidydataset))
